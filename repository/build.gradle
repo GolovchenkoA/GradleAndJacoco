@@ -1,3 +1,19 @@
+buildscript {
+  repositories {
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+  }
+  dependencies {
+    classpath "cz.malohlava:visteg:1.0.2"
+  }
+}
+
+
+plugins {
+  //home page https://plugins.gradle.org/plugin/cz.malohlava
+  id "cz.malohlava" version "1.0.2"
+}
 apply from: 'databaseSetup.gradle'
 
 repositories {
@@ -37,3 +53,19 @@ startDatabase.dependsOn test
 integrationTest.dependsOn startAndPrepareDatabase
 stopDatabase.dependsOn integrationTest
 check.dependsOn stopDatabase
+
+
+
+visteg {
+	// settings for plugin id "cz.malohlava" version "1.0.2"
+	//visteg.dot visualizer http://www.webgraphviz.com/
+    enabled        = true
+    colouredNodes  = true
+    colouredEdges  = true
+    destination    = 'build/reports/visteg.dot'
+    exporter       = 'dot'
+    colorscheme    = 'spectral11'
+    nodeShape      = 'box'
+    startNodeShape = 'hexagon'
+    endNodeShape   = 'doubleoctagon'
+}
