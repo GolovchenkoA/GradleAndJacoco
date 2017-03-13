@@ -27,10 +27,26 @@ subprojects {
 		inputs.files test.outputs.files
 		doLast{
 			def timestamp = System.currentTimeMillis()
-			test.testResultsDir.eachFile { it.lastModified = timestamp }
+			println "${testResultsDirName} and timestamp: ${timestamp}"
+			
+			//${buildDir}\${testResultsDirName}
+			def testResultFolder = new File("$buildDir/$testResultsDirName/test")
+			//println "$testResultFolder"
+			//testResultFolder.eachFile { println it }
+			//testResultFolder.eachFile { it.setLastModified(timestamp) }
+			testResultFolder.eachFile { it.lastModified = timestamp }
+			//testResultsDirName.eachFile { it.lastModified = timestamp }
+			
 		}
 	}
 
-build.dependsOn(jenkinsTest)
+//build.dependsOn(jenkinsTest)
+gradle.buildFinished{  BuildResult -> jenkinsTest}
+
+test {
+    testLogging {
+        showStandardStreams = true
+    }
+}
 }
 
