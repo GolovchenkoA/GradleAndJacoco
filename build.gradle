@@ -2,6 +2,22 @@ allprojects {
     apply plugin: 'idea'
     group = 'com.manning.gia'
     version = '0.1'
+	
+	
+
+	task jenkinsTest{
+	group = 'test'
+    description = 'was created because was error on jenkins server: Test reports were found but none of them are new.  http://www.practicalgradle.org/blog/2011/06/incremental-tests-with-jenkins/'
+	
+    inputs.files test.outputs.files
+    doLast{
+        def timestamp = System.currentTimeMillis()
+        test.testResultsDir.eachFile { it.lastModified = timestamp }
+    }
+}
+
+build.dependsOn(jenkinsTest)
+
 }
 
 subprojects {
