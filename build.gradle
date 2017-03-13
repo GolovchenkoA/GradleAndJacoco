@@ -5,7 +5,17 @@ allprojects {
 	
 	
 
-	task jenkinsTest{
+
+
+}
+
+subprojects {
+    apply plugin: 'java'
+	apply plugin:'groovy'
+    apply from: "$rootDir/gradle/jacoco.gradle"
+
+	
+task jenkinsTest{
 	group = 'test'
     description = 'was created because was error on jenkins server: Test reports were found but none of them are new.  http://www.practicalgradle.org/blog/2011/06/incremental-tests-with-jenkins/'
 	
@@ -17,15 +27,15 @@ allprojects {
 }
 
 build.dependsOn(jenkinsTest)
-
-}
-
-subprojects {
-    apply plugin: 'java'
-    apply from: "$rootDir/gradle/jacoco.gradle"
-
+	
+	
     repositories {
         mavenCentral()
     }
+	
+	dependencies{
+		groovy "org.codehaus.groovy:groovy-all:1.7.10"
+		testCompile "junit:junit:4.8.2"
+	}
 }
 
